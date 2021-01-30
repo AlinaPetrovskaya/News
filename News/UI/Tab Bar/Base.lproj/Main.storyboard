@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TQP-Jg-d8v">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="ANg-q8-rNv">
+            <objects>
+                <tabBarController id="TQP-Jg-d8v" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="kTc-7V-Vbc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" systemColor="systemTealColor"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.34509803919999998" green="0.46666666670000001" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="tV4-mE-1KL" kind="relationship" relationship="viewControllers" id="gez-Pv-jyG"/>
+                        <segue destination="kZa-G5-3o6" kind="relationship" relationship="viewControllers" id="Bqa-kt-elp"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vWi-ig-Kef" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-951" y="11"/>
+        </scene>
+        <!--HomeScreenViewController-->
+        <scene sceneID="qVJ-cW-9o5">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="HomeScreenViewController" storyboardName="Home" referencedIdentifier="HomeScreenViewController" id="tV4-mE-1KL" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="Home Icon" id="WcA-99-pcc"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XZ5-oP-5Wl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-202" y="-93"/>
+        </scene>
+        <!--BookmarkViewController-->
+        <scene sceneID="8Mk-i6-5HQ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Bookmark" referencedIdentifier="BookmarkViewController" id="kZa-G5-3o6" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Bookmark" image="bookmark" catalog="system" selectedImage="bookmark.fill" id="eKH-bs-grc"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pIN-vd-PnP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-214" y="11"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Home Icon" width="24" height="24"/>
+        <image name="bookmark" catalog="system" width="112" height="128"/>
+        <image name="bookmark.fill" catalog="system" width="112" height="128"/>
+        <systemColor name="systemTealColor">
+            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

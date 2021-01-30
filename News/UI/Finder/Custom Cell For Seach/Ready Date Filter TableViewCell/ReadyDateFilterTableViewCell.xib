@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Text-Regular.otf">
+            <string>SFProText-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ReadyDateFilterTableViewCell" rowHeight="71" id="QAC-fV-32g" customClass="ReadyDateFilterTableViewCell" customModule="News" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="71"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QAC-fV-32g" id="rbd-GE-TVX">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="71"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hrI-oZ-13k" userLabel="DateView">
+                        <rect key="frame" x="24" y="16" width="247" height="36"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Date range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jqr-sN-QS0">
+                                <rect key="frame" x="16" y="9.5" width="195" height="17"/>
+                                <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ay2-7n-UHu">
+                                <rect key="frame" x="211" y="0.0" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ay2-7n-UHu" secondAttribute="height" multiplier="1:1" id="bKc-P0-cEN"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearDate:" destination="QAC-fV-32g" eventType="touchUpInside" id="gv0-XR-clz"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xmark.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Vqe-g8-wuw">
+                                <rect key="frame" x="221" y="10.5" width="16" height="15"/>
+                                <color key="tintColor" red="0.34509803919999998" green="0.46666666670000001" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Vqe-g8-wuw" secondAttribute="height" multiplier="1:1" id="hcp-3N-34n"/>
+                                    <constraint firstAttribute="width" constant="16" id="kV5-e9-fvH"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ay2-7n-UHu" firstAttribute="leading" secondItem="Jqr-sN-QS0" secondAttribute="trailing" id="4aW-eg-UIY"/>
+                            <constraint firstAttribute="width" constant="247" id="4fS-3a-N95"/>
+                            <constraint firstAttribute="bottom" secondItem="ay2-7n-UHu" secondAttribute="bottom" id="7PR-5Q-CWF"/>
+                            <constraint firstAttribute="height" constant="36" id="93A-O3-vw0"/>
+                            <constraint firstItem="Vqe-g8-wuw" firstAttribute="centerY" secondItem="ay2-7n-UHu" secondAttribute="centerY" id="Jvt-PE-i0c"/>
+                            <constraint firstAttribute="trailing" secondItem="ay2-7n-UHu" secondAttribute="trailing" id="KzU-6R-Ay6"/>
+                            <constraint firstItem="ay2-7n-UHu" firstAttribute="top" secondItem="hrI-oZ-13k" secondAttribute="top" id="QT5-5P-3h3"/>
+                            <constraint firstItem="Jqr-sN-QS0" firstAttribute="centerY" secondItem="hrI-oZ-13k" secondAttribute="centerY" id="QeG-2O-hGA"/>
+                            <constraint firstItem="Jqr-sN-QS0" firstAttribute="leading" secondItem="hrI-oZ-13k" secondAttribute="leading" constant="16" id="hMI-dB-4eF"/>
+                            <constraint firstItem="Vqe-g8-wuw" firstAttribute="centerX" secondItem="ay2-7n-UHu" secondAttribute="centerX" id="rHZ-WJ-RSY"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="hrI-oZ-13k" firstAttribute="centerY" secondItem="rbd-GE-TVX" secondAttribute="centerY" id="7s0-q1-lnJ"/>
+                    <constraint firstAttribute="bottom" secondItem="hrI-oZ-13k" secondAttribute="bottom" constant="16" id="aE7-ht-A0U"/>
+                    <constraint firstItem="hrI-oZ-13k" firstAttribute="leading" secondItem="rbd-GE-TVX" secondAttribute="leading" constant="24" id="n9z-GT-G45"/>
+                    <constraint firstItem="hrI-oZ-13k" firstAttribute="top" secondItem="rbd-GE-TVX" secondAttribute="top" constant="16" id="s3K-S0-bhy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dateForFilter" destination="Jqr-sN-QS0" id="sxQ-CD-kYd"/>
+                <outlet property="dateView" destination="hrI-oZ-13k" id="2d3-0I-jwT"/>
+            </connections>
+            <point key="canvasLocation" x="166.66666666666669" y="77.34375"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

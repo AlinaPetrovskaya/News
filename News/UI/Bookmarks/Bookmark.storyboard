@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Medium.otf">
+            <string>SFProDisplay-Medium</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Bookmark-->
+        <scene sceneID="xj1-Ow-FyF">
+            <objects>
+                <viewController storyboardIdentifier="BookmarkViewController" id="AVL-Oo-IUE" customClass="BookmarksViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DXb-wz-qD6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TVC-Hc-91r" customClass="UnderlineForHeaderView" customModule="News" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="106"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bookmark" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p0V-sY-Vuw">
+                                        <rect key="frame" x="24" y="63" width="105.5" height="29"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="p0V-sY-Vuw" firstAttribute="leading" secondItem="TVC-Hc-91r" secondAttribute="leading" constant="24" id="bd9-XQ-uLF"/>
+                                    <constraint firstAttribute="bottom" secondItem="p0V-sY-Vuw" secondAttribute="bottom" constant="14" id="d32-t6-OFk"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ajB-rS-fqC">
+                                <rect key="frame" x="0.0" y="122" width="414" height="691"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vXP-zV-am1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ajB-rS-fqC" firstAttribute="leading" secondItem="vXP-zV-am1" secondAttribute="leading" id="0eW-am-Gnv"/>
+                            <constraint firstItem="TVC-Hc-91r" firstAttribute="top" secondItem="DXb-wz-qD6" secondAttribute="top" id="V7e-D9-TwL"/>
+                            <constraint firstItem="TVC-Hc-91r" firstAttribute="height" secondItem="DXb-wz-qD6" secondAttribute="height" multiplier="1:8.456" id="cPC-hp-eOT"/>
+                            <constraint firstItem="vXP-zV-am1" firstAttribute="trailing" secondItem="TVC-Hc-91r" secondAttribute="trailing" id="d8Z-VE-1fz"/>
+                            <constraint firstItem="vXP-zV-am1" firstAttribute="bottom" secondItem="ajB-rS-fqC" secondAttribute="bottom" id="gKv-zz-wpK"/>
+                            <constraint firstItem="ajB-rS-fqC" firstAttribute="top" secondItem="TVC-Hc-91r" secondAttribute="bottom" constant="16" id="vgU-2S-r9B"/>
+                            <constraint firstItem="vXP-zV-am1" firstAttribute="trailing" secondItem="ajB-rS-fqC" secondAttribute="trailing" id="w0t-vH-DqG"/>
+                            <constraint firstItem="TVC-Hc-91r" firstAttribute="leading" secondItem="vXP-zV-am1" secondAttribute="leading" id="y7u-xw-BWB"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Bookmark" image="bookmark" catalog="system" selectedImage="bookmark" id="0q9-nK-mzb"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="articleTable" destination="ajB-rS-fqC" id="Wfw-ts-YDO"/>
+                        <segue destination="A3f-ju-Srr" kind="presentation" identifier="From Bookmarks To Article" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="New-4X-rGb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zK1-5l-rbp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="224.63768115942031" y="112.5"/>
+        </scene>
+        <!--ArticleDetailController-->
+        <scene sceneID="WGG-zW-zgC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ArticleDetailController" referencedIdentifier="ArticleDetailController" id="A3f-ju-Srr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xJt-fe-bfW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="841" y="113"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bookmark" catalog="system" width="112" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

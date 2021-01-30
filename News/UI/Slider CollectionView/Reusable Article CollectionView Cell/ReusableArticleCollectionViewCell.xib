@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Text-Regular.otf">
+            <string>SFProText-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="ReusableArticleCollectionViewCell" reuseIdentifier="ReusableArticleCollectionViewCell" id="neg-TL-kwJ" customClass="ReusableArticleCollectionViewCell" customModule="News" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="395" height="287"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="T5c-0o-W6g">
+                <rect key="frame" x="0.0" y="0.0" width="395" height="287"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default" translatesAutoresizingMaskIntoConstraints="NO" id="5ja-fc-lyL" userLabel="Article's image">
+                        <rect key="frame" x="0.0" y="16" width="383" height="160"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="160" id="Spc-kH-KOK"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Article`s anounce " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d23-zA-KMc">
+                        <rect key="frame" x="0.0" y="188" width="351" height="87"/>
+                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLF-FM-WxO">
+                        <rect key="frame" x="359" y="219.5" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="q1Q-DN-H5O"/>
+                            <constraint firstAttribute="height" constant="24" id="wmD-Ix-jYp"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="bookmark" catalog="system"/>
+                        <connections>
+                            <action selector="saveButtonPressed:" destination="neg-TL-kwJ" eventType="touchUpInside" id="09h-Rn-t2b"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="d23-zA-KMc" secondAttribute="bottom" constant="12" id="OjF-0D-0Yl"/>
+                    <constraint firstItem="d23-zA-KMc" firstAttribute="leading" secondItem="T5c-0o-W6g" secondAttribute="leading" id="T4r-MX-rGS"/>
+                    <constraint firstItem="gLF-FM-WxO" firstAttribute="centerY" secondItem="d23-zA-KMc" secondAttribute="centerY" id="VnN-Jh-3i1"/>
+                    <constraint firstItem="d23-zA-KMc" firstAttribute="top" secondItem="5ja-fc-lyL" secondAttribute="bottom" constant="12" id="ZpX-bV-3Ul"/>
+                    <constraint firstAttribute="trailing" secondItem="5ja-fc-lyL" secondAttribute="trailing" constant="12" id="bqW-3a-n3v"/>
+                    <constraint firstItem="5ja-fc-lyL" firstAttribute="leading" secondItem="T5c-0o-W6g" secondAttribute="leading" id="c88-yZ-GBk"/>
+                    <constraint firstItem="gLF-FM-WxO" firstAttribute="trailing" secondItem="5ja-fc-lyL" secondAttribute="trailing" id="kxz-e7-QFx"/>
+                    <constraint firstItem="gLF-FM-WxO" firstAttribute="leading" secondItem="d23-zA-KMc" secondAttribute="trailing" constant="8" id="l9D-BN-Wis"/>
+                    <constraint firstItem="5ja-fc-lyL" firstAttribute="top" secondItem="T5c-0o-W6g" secondAttribute="top" constant="16" id="wOP-Ub-YYn"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="395" height="287"/>
+            <connections>
+                <outlet property="previewImage" destination="5ja-fc-lyL" id="5Be-p6-Plf"/>
+                <outlet property="saveButton" destination="gLF-FM-WxO" id="vhY-UF-cwN"/>
+                <outlet property="titleText" destination="d23-zA-KMc" id="Yst-Kh-cxB"/>
+            </connections>
+            <point key="canvasLocation" x="451.44927536231887" y="156.36160714285714"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="bookmark" catalog="system" width="112" height="128"/>
+        <image name="default" width="200" height="127.5"/>
+    </resources>
+</document>
