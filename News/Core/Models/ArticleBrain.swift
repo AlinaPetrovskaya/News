@@ -30,10 +30,6 @@ struct ArticleBrain {
             }
         }
         
-        func getIndexForReloadRow() {
-            
-        }
-        
         let isSaved = dbManager.isArticleSaved(urlString: contentForCell?.urlString)
         cell?.updateUI(title: contentForCell?.title,
                        date: dateString,
@@ -44,6 +40,31 @@ struct ArticleBrain {
                        isSaved: isSaved)
         
         return cell ?? ReusableArticleTableViewCell()
+    }
+    
+    func getIndexToReloadRows(arrayOfListNews: [Article]?, item: RealmItem?) -> (Int, Int)? {
+        
+        guard let safeArray = arrayOfListNews else { return nil}
+        
+        let indexForReloadArticleRow = safeArray.firstIndex { (articleList) -> Bool in
+            articleList.urlString == item?.urlString
+        }
+        
+        if let row = indexForReloadArticleRow {
+            return (row, 1)
+        }
+        
+        return nil
+    }
+    
+    func chekToReloadSlider(arrayOfSliderNews: [Article]?, item: RealmItem?) -> Bool {
+        
+        guard let safeArray = arrayOfSliderNews else { return false }
+        let isNeedToReloadSlider = safeArray.contains { (sliderArray) -> Bool in
+            return sliderArray.urlString == item?.urlString
+        }
+        
+        return isNeedToReloadSlider
     }
     
     func getDataForArticleDetail(contentForArticleDetail: Article) -> DataForArticle {
@@ -81,23 +102,6 @@ struct ArticleBrain {
         return Date()
     }
     
-    func returnRowIndex(articleList: [Article]?, urlString: String?) -> Int? {
-        
-        guard let articles = articleList else { return nil }
-        
-        var index = 0
-        
-        for item in articles {
-            
-            if item.urlString == urlString {
-                break
-            } else {
-                index += 1
-            }
-        }
-        
-        return index
-    }
     
     func convertDateIntoString(date: Date?, type: TypeForGetDate) -> String {
         guard let safeDate = date else { return "no Date" }

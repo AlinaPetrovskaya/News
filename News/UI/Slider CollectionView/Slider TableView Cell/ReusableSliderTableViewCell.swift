@@ -31,7 +31,6 @@ class ReusableSliderTableViewCell: UITableViewCell {
         }
     }
     var tapActionOnSearchButton: ((String) -> ())?
-    var reloadTableViewCell: (() -> (Bool))?
     var showDetailArticleAction: (((image: UIImage?,
                                 title: String?,
                                 sourceName: String?,
@@ -39,6 +38,26 @@ class ReusableSliderTableViewCell: UITableViewCell {
                                 content: String?,
                                 articleDescription: String?)) -> ())?
     
+    
+    public required init?(coder: NSCoder) {
+        
+        super.init(coder: coder)
+        itemsToken = items?.observe({ [weak collectionView] changes in //let Realm to know that u want to recive updates
+          
+          switch changes {
+          
+          case .initial:
+            collectionView?.reloadData()
+           
+          case .update(_, _, _, _):
+            break
+                
+          case .error:
+            break
+          }
+        })
+        
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -126,7 +145,7 @@ extension ReusableSliderTableViewCell: UICollectionViewDataSource {
                                                            needSave: true,
                                                            item: nil)
                    
-                   // self?.collectionView.reloadItems(at: [indexPath])
+                   self?.collectionView.reloadItems(at: [indexPath])
                                         
                     
                 } else {
@@ -136,7 +155,7 @@ extension ReusableSliderTableViewCell: UICollectionViewDataSource {
                                                            needSave: false,
                                                            item: item)
                    
-                       // self?.collectionView.reloadItems(at: [indexPath])
+                        self?.collectionView.reloadItems(at: [indexPath])
             }
         }
             return cell ?? UICollectionViewCell()

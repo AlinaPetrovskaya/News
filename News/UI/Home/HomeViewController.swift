@@ -38,10 +38,8 @@ class HomeViewController: UIViewController {
             articleTable?.reloadData()
            
           case .update(_, _, _, _):
-            if let cell = self?.currentcell {
-                articleTable?.reloadRows(cell: [cell])
-            }
-            
+            break
+                
           case .error:
             break
           }
@@ -135,12 +133,6 @@ extension HomeViewController: UITableViewDataSource {
                 DispatchQueue.main.async { [weak self] in
                     self?.performSegue(withIdentifier: Constants.fromHomeToAtricle, sender: self)
                 }
-            }
-            
-            //catch reload action from slider
-            sliderTableViewCell?.reloadTableViewCell = { [weak self] in
-                self?.articleTable.reloadSections([indexPath.section], with: .automatic)
-                return true
             }
             
             return sliderTableViewCell ?? UITableViewCell()

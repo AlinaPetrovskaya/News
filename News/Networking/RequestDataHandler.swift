@@ -36,7 +36,9 @@ class RequestDataHandler {
     
     func getDataForSlider() {
         
-        newsService.requestData(for: .topHeadliners) { [weak self] (result) in
+        newsService.requestData(for: .some("politics"),
+                                dateFrom: Date(timeIntervalSinceNow: -300000),
+                                dateTo: Date()) { [weak self] (result) in
             if let safeSelf = self {
                 
                 safeSelf.saveContentDataIntoArray(data: result,
