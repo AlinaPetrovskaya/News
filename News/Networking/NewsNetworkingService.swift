@@ -31,8 +31,11 @@ class NewsNetworkingService {
         guard let safeImageURL = imageURL else { return }
         
         if let url = URL(string: safeImageURL) {
+            let sessionConfiguration = URLSessionConfiguration.default
+            sessionConfiguration.timeoutIntervalForRequest = 15.0
+            sessionConfiguration.timeoutIntervalForResource = 15.0
             
-            let session = URLSession(configuration: .default)
+            let session = URLSession(configuration: sessionConfiguration)
             let task    = session.dataTask(with: url) { (data, _, _) in
                 DispatchQueue.main.async {
                     completion(data)

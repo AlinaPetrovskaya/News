@@ -47,6 +47,7 @@ import RealmSwift
 }
 
 extension RealmItem {
+    
     static func getAllItems(in realm: Realm = try! Realm()) -> Results<RealmItem> {
         return realm.objects(RealmItem.self)
             .sorted(byKeyPath: RealmItem.Property.date.rawValue)
@@ -69,7 +70,7 @@ extension RealmItem {
       return item
     }
 
-
+    
     func deleteItem() {
       guard let realm = realm else { return }
 

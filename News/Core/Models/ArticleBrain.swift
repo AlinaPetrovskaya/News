@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import RealmSwift
 
 
 struct ArticleBrain {
@@ -42,30 +42,37 @@ struct ArticleBrain {
         return cell ?? ReusableArticleTableViewCell()
     }
     
-    func getIndexToReloadRows(arrayOfListNews: [Article]?, item: RealmItem?) -> (Int, Int)? {
+    func getIndexToReloadRow(oldRealmArray: Results<RealmItem>?, newRealmArray: Results<RealmItem>, arrayOfNews: [Article]?, section: Int) -> IndexPath? {
         
-        guard let safeArray = arrayOfListNews else { return nil}
+        var oldURLS = Set<String>()
+        var newURLS = Set<String>()
         
-        let indexForReloadArticleRow = safeArray.firstIndex { (articleList) -> Bool in
-            articleList.urlString == item?.urlString
+        oldRealmArray?.forEach({ (item) in
+            oldURLS.insert(item.urlString)
+        })
+        
+        newRealmArray.forEach({ (item) in
+            newURLS.insert(item.urlString)
+        })
+        
+        let differentURL = oldURLS.symmetricDifference(newURLS)
+        
+        if differentURL.isEmpty {
+            return nil
         }
         
-        if let row = indexForReloadArticleRow {
-            return (row, 1)
-        }
+        let indexForReload = arrayOfNews?.firstIndex(where: { (article) -> Bool in
+            return article.urlString == differentURL.first
+        })
         
-        return nil
+        guard let row = indexForReload else { return nil }
+        
+        let indexPath = IndexPath(row: row, section: section)
+        
+        return indexPath
     }
     
-    func chekToReloadSlider(arrayOfSliderNews: [Article]?, item: RealmItem?) -> Bool {
-        
-        guard let safeArray = arrayOfSliderNews else { return false }
-        let isNeedToReloadSlider = safeArray.contains { (sliderArray) -> Bool in
-            return sliderArray.urlString == item?.urlString
-        }
-        
-        return isNeedToReloadSlider
-    }
+ 
     
     func getDataForArticleDetail(contentForArticleDetail: Article) -> DataForArticle {
         

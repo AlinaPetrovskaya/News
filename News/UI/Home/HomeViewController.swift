@@ -19,6 +19,7 @@ class HomeViewController: UIViewController {
     private let dbManager          = DBManager()
     
     private var items: Results<RealmItem>?
+    private var oldRealmItems: Results<RealmItem>? = RealmItem.getAllItems().freeze()
     private var itemsToken: NotificationToken?
     private var dataForDetailVC: DataForArticle?
     private var currentcell: (Int, Int)?
@@ -29,6 +30,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        items = RealmItem.getAllItems()
         
         itemsToken = items?.observe({ [weak articleTable, weak self] changes in //let Realm to knoe that u want to recive updates
           
@@ -37,8 +39,13 @@ class HomeViewController: UIViewController {
           case .initial:
             articleTable?.reloadData()
            
-          case .update(_, _, _, _):
-            break
+          case .update(let newItem, _, _, _):
+            let indexPath = self?.articleBrain.getIndexToReloadRow(oldRealmArray: self?.oldRealmItems?.freeze(), newRealmArray: newItem, arrayOfNews: self?.requestDataHandler.arrayForListOfArticles, section: 1)
+            
+            if let safeIndexPath = indexPath {
+                articleTable?.reloadRows(at: [safeIndexPath], with: .automatic)
+            }
+            self?.oldRealmItems = newItem.freeze()
                 
           case .error:
             break
@@ -48,8 +55,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        items = RealmItem.getAllItems()
         
         prepareTableView()
     }
@@ -65,10 +70,8 @@ class HomeViewController: UIViewController {
         articleTable.delegate   = self
         articleTable.dataSource = self
         
-        
         //make server requests
         requestDataHandler.getDataForListNews(for: "politics")
-        requestDataHandler.getDataForSlider()
         
         //get callback from requestDataHandler
         requestDataHandler.callBack = { [weak self] in
@@ -124,7 +127,7 @@ extension HomeViewController: UITableViewDataSource {
         case .articleSlider:
             let sliderTableViewCell = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableSliderTableViewCell) as? ReusableSliderTableViewCell
             
-            sliderTableViewCell?.updateUI(with: .articleSlider, arrayOfNews: requestDataHandler.arrayForSliderOfArticles, dictionaryOfImages: requestDataHandler.dictionaryOfimages)
+            sliderTableViewCell?.updateUI(with: .articleSlider)
             
             //catch showDetailArticle action from slider
             sliderTableViewCell?.showDetailArticleAction = { [weak self] content in
@@ -159,7 +162,6 @@ extension HomeViewController: UITableViewDataSource {
                     guard let item = self?.dbManager.getRealmItem(urlString: contentForCell.urlString) else { return }
                     self?.dbManager.deleteImageFromFileManager(imageURL: item.imageURL)
                     self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
-                    
                 }
             }
             

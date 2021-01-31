@@ -14,32 +14,10 @@ class BookmarksViewController: UIViewController {
     
     private var items: Results<RealmItem>?
     private var itemsToken: NotificationToken?
-    private var currentcell: (Int, Int)?
     private var dataForDetailVC: DataForArticle?
     
     private let dbManager    = DBManager()
     private let articleBrain = ArticleBrain()
-    
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        itemsToken = items?.observe({ [weak articleTable] changes in
-          
-          switch changes {
-          
-          case .initial:
-            articleTable?.reloadData()
-           
-          case .update(_, _, _, _):
-            articleTable?.reloadData()
-            
-          case .error:
-            break
-          }
-        })
-      }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +32,30 @@ class BookmarksViewController: UIViewController {
         articleTable.register(nib, forCellReuseIdentifier: Constants.reusableArticleCell)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        itemsToken = items?.observe({ [weak articleTable] changes in
+          
+          switch changes {
+          
+          case .initial:
+            articleTable?.reloadData()
+           
+          case .update(_, _, _, _):
+            articleTable?.reloadData()
+            
+          case .error:
+            break
+          }
+        })
+        
+      }
+    
     override func viewWillDisappear(_ animated: Bool) {
       super.viewWillDisappear(animated)
+        itemsToken?.invalidate()
       
-      itemsToken?.invalidate()
     }
     
     
@@ -100,8 +98,10 @@ extension BookmarksViewController: UITableViewDataSource {
         //get action from cell
         cell?.tapAction = { [weak self] _ in
             let item = self?.items?[indexPath.row]
-            self?.dbManager.deleteImageFromFileManager(imageURL: item?.imageURL)
-            self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
+            DispatchQueue.main.async {
+                self?.dbManager.deleteImageFromFileManager(imageURL: item?.imageURL)
+                self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
+            }
         }
       
         return cell ?? UITableViewCell()
