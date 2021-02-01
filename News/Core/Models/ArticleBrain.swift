@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 
-struct ArticleBrain {
+class ArticleBrain {
     
     enum TypeForGetDate {
         case dateForPreviewNews
@@ -19,7 +19,7 @@ struct ArticleBrain {
     var images: [String : Data] = [:]
     var dbManager = DBManager()
     
-    mutating func buildCellForArticleTable(cell: ReusableArticleTableViewCell?, contentForCell: Article?) -> ReusableArticleTableViewCell {
+    func buildCellForArticleTable(cell: ReusableArticleTableViewCell?, contentForCell: Article?) -> ReusableArticleTableViewCell {
         
         let dateString = convertDateIntoString(date: contentForCell?.publishedAt, type: .dateForPreviewNews)
         
@@ -40,6 +40,33 @@ struct ArticleBrain {
                        isSaved: isSaved)
         
         return cell ?? ReusableArticleTableViewCell()
+    }
+    
+    func buildCellForSlider(cell: ReusableArticleCollectionViewCell?, contentForCell: Article?) -> ReusableArticleCollectionViewCell {
+        let isSaved = dbManager.isArticleSaved(urlString: contentForCell?.urlString)
+
+        var dataConstructor = (image: #imageLiteral(resourceName: "default"),
+                               title: contentForCell?.title,
+                               sourceName: contentForCell?.source.name,
+                               urlString: contentForCell?.urlString,
+                               content: contentForCell?.content,
+                               articleDescription: contentForCell?.articleDescription,
+                               isSaved: isSaved)
+       
+        if let imageURL = contentForCell?.urlToImage { //set image for cell
+            if let imageData = images[imageURL] {
+                let image = UIImage(data: imageData)
+                dataConstructor.image = image ?? #imageLiteral(resourceName: "default")
+                cell?.updateUI(content: dataConstructor)
+                
+                return  cell ?? ReusableArticleCollectionViewCell()
+            }
+        }
+        
+        
+        cell?.updateUI(content: dataConstructor)
+        
+        return cell ?? ReusableArticleCollectionViewCell()
     }
     
     func getIndexToReloadRow(oldRealmArray: Results<RealmItem>?, newRealmArray: Results<RealmItem>, arrayOfNews: [Article]?, section: Int) -> IndexPath? {

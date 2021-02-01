@@ -10,7 +10,7 @@ import UIKit
 class ReusableArticleCollectionViewCell: UICollectionViewCell {
     
     var tapAction: ((Bool) -> ())?
-    @IBOutlet weak var previewImage: UIImageView!
+    @IBOutlet private var previewImage: UIImageView!
     @IBOutlet private weak var titleText: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
     
@@ -19,41 +19,27 @@ class ReusableArticleCollectionViewCell: UICollectionViewCell {
     private var content: String?
     private var articleDescription: String?
     private var isSaved: Bool = false
-    
-    var dataForDetailArticle: (image: UIImage?,
-                               title: String?,
-                               sourceName: String?,
-                               urlString: String?,
-                               content: String?,
-                               articleDescription: String?) {
-        get {
-            ((image: previewImage.image,
-                     title: titleText.text,
-                     sourceName: sourceName,
-                     urlString: urlString,
-                     content: content,
-                     articleDescription: articleDescription))
-        }
-    }
 
     
-    func updateUI (title: String?,
+    func updateUI (content:(image: UIImage,
+                   title: String?,
                    sourceName: String?,
                    urlString: String?,
                    content: String?,
                    articleDescription: String?,
-                   isSaved: Bool = false) {
+                   isSaved: Bool)) {
         
-        let isArticleSelected: String = isSaved ? "bookmark.fill" : "bookmark"
-        saveButton.tintColor       = isSaved ? #colorLiteral(red: 0.417593956, green: 0.5600294471, blue: 0.9730384946, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        let isArticleSelected: String = content.isSaved ? "bookmark.fill" : "bookmark"
+        saveButton.tintColor          = content.isSaved ? #colorLiteral(red: 0.417593956, green: 0.5600294471, blue: 0.9730384946, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         saveButton.setImage(UIImage(systemName: isArticleSelected), for: .normal)
         
-        titleText.text          = title
-        self.sourceName         = sourceName
-        self.isSaved            = isSaved
-        self.articleDescription = articleDescription
-        self.urlString          = urlString
-        self.content            = content
+        previewImage.image      = content.image
+        titleText.text          = content.title
+        self.sourceName         = content.sourceName
+        self.isSaved            = content.isSaved
+        self.articleDescription = content.articleDescription
+        self.urlString          = content.urlString
+        self.content            = content.content
         
         previewImage.layer.cornerRadius  = 8
         previewImage.layer.shadowColor   = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)

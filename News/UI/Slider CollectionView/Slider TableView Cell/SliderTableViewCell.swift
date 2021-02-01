@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class ReusableSliderTableViewCell: UITableViewCell {
+class SliderTableViewCell: UITableViewCell {
     
     enum TypeOfCell: Int {
         case articleSlider = 0, buttonSlider
@@ -22,8 +22,10 @@ class ReusableSliderTableViewCell: UITableViewCell {
     private var articleBrain = ArticleBrain()
     
     @IBOutlet weak var collectionView: UICollectionView!
-    private let arrayOfTitlesForButton = ["Politics", "Sport", "Business", "Army", "Nature", "Art"]
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var section: TypeOfCell    = .buttonSlider
+    
+    private let arrayOfTitlesForButton = ["Politics", "Sport", "Business", "Army", "Nature", "Art"]
     
     var tapActionOnSearchButton: ((String) -> ())?
     var showDetailArticleAction: ((DataForArticle) -> ())?
@@ -59,10 +61,11 @@ class ReusableSliderTableViewCell: UITableViewCell {
                 let indexPath = self?.articleBrain.getIndexToReloadRow(oldRealmArray: self?.oldRealmItems?.freeze(), newRealmArray: newItem, arrayOfNews: self?.requestDataHandler.arrayForSliderOfArticles, section: 0)
                 
                 if let safeIndexPath = indexPath {
-                    
-                 
-                        collectionView?.reloadItems(at: [safeIndexPath])
-                     
+                    if let numberOfItems = collectionView?.numberOfItems(inSection: 0), let numberOfarticles = self?.requestDataHandler.arrayForSliderOfArticles.count  {
+                        if numberOfItems == numberOfarticles {
+                            collectionView?.reloadItems(at: [safeIndexPath])
+                        }
+                    }
                 }
                 
                 self?.oldRealmItems = newItem.freeze()
@@ -89,7 +92,7 @@ class ReusableSliderTableViewCell: UITableViewCell {
 }
 
 // MARK: UICollectionViewDataSource
-extension ReusableSliderTableViewCell: UICollectionViewDataSource {
+extension SliderTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch self.section {
@@ -111,47 +114,28 @@ extension ReusableSliderTableViewCell: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reusableArticleCollectionViewCell, for: indexPath) as? ReusableArticleCollectionViewCell
             
             let contentForCell = requestDataHandler.arrayForSliderOfArticles[indexPath.row]
-            let isSaved = dbManager.isArticleSaved(urlString: contentForCell.urlString)
             
-            if let safeImageUrl = contentForCell.urlToImage {
-                if let imageData = requestDataHandler.dictionaryOfimages[safeImageUrl] {
-                    cell?.previewImage.image = UIImage(data: imageData) ?? #imageLiteral(resourceName: "default")
-                }
-                
-            }
+            let newCell = articleBrain.buildCellForSlider(cell: cell, contentForCell: contentForCell)
             
-            cell?.updateUI(title: contentForCell.title,
-                           sourceName: contentForCell.source.name,
-                           urlString: contentForCell.urlString,
-                           content: contentForCell.content,
-                           articleDescription: contentForCell.articleDescription,
-                           isSaved: isSaved)
-            
-            cell?.tapAction = { [weak self] needSave in //catch save action from savebutton of SliderArticle item
-                
+            newCell.tapAction = { [weak self] needSave in //catch save action from savebutton of SliderArticle item
                 if needSave {
-                    
                     let imageData = self?.requestDataHandler.dictionaryOfimages[contentForCell.urlToImage ?? ""]
-                    let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell,image: imageData)
+                    let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell, image: imageData)
                     self?.collectionView.updateItemAtRealm(data: contentForRealm,
                                                            needSave: true,
                                                            item: nil)
-                    self?.collectionView?.reloadItems(at: [indexPath])
-                    
-                    
+                 
                 } else {
                     guard let item = self?.dbManager.getRealmItem(urlString: contentForCell.urlString) else { return }
-                    
+                    self?.dbManager.deleteImageFromFileManager(imageURL: item.imageURL)
                     self?.collectionView.updateItemAtRealm(data: nil,
                                                            needSave: false,
                                                            item: item)
-                    self?.collectionView?.reloadItems(at: [indexPath])
                 }
             }
-            return cell ?? UICollectionViewCell()
+            return newCell
             
         case .buttonSlider:
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.sliderButtonCollectionView, for: indexPath) as? SliderButtonCollectionViewCell
             
             cell?.updateUI(title: arrayOfTitlesForButton[indexPath.row])
@@ -159,15 +143,15 @@ extension ReusableSliderTableViewCell: UICollectionViewDataSource {
             cell?.tapAction = { [weak self] button in //catch tap at searchButton slider
                 self?.tapActionOnSearchButton?(button)
             }
-            return cell ?? UICollectionViewCell()
             
+            return cell ?? UICollectionViewCell()
         }
     }
 }
 
 
 // MARK: UICollectionViewDelegate
-extension ReusableSliderTableViewCell: UICollectionViewDelegate {
+extension SliderTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = requestDataHandler.arrayForSliderOfArticles[indexPath.row]
@@ -176,8 +160,10 @@ extension ReusableSliderTableViewCell: UICollectionViewDelegate {
     }
 }
 
+
+
 // MARK: UICollectionViewDelegateFlowLayout
-extension ReusableSliderTableViewCell: UICollectionViewDelegateFlowLayout {
+extension SliderTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

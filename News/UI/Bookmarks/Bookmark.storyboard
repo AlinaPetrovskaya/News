@@ -59,7 +59,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="articleTable" destination="ajB-rS-fqC" id="Wfw-ts-YDO"/>
-                        <segue destination="A3f-ju-Srr" kind="presentation" identifier="From Bookmarks To Article" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="New-4X-rGb"/>
+                        <segue destination="A3f-ju-Srr" kind="presentation" identifier="From Bookmarks To Article" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="New-4X-rGb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zK1-5l-rbp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

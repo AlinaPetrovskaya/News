@@ -37,7 +37,7 @@
 		846E02C8259B4C9A00211482 /* ReadyDateFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02C7259B4C9A00211482 /* ReadyDateFilterTableViewCell.swift */; };
 		846E02CE259B5E9B00211482 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02CD259B5E9B00211482 /* BookmarksViewController.swift */; };
 		846E02D5259B836000211482 /* ArticleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02D4259B836000211482 /* ArticleDetailController.swift */; };
-		846E02D8259B869B00211482 /* ReusableSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02D7259B869B00211482 /* ReusableSliderTableViewCell.swift */; };
+		846E02D8259B869B00211482 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02D7259B869B00211482 /* SliderTableViewCell.swift */; };
 		846E02DB259B871D00211482 /* SliderButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02DA259B871D00211482 /* SliderButtonCollectionViewCell.swift */; };
 		846E02DE259B87EF00211482 /* ReusableArticleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E02DD259B87EF00211482 /* ReusableArticleCollectionViewCell.swift */; };
 		8478D5FF259CB81100934F1D /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8478D5FE259CB81100934F1D /* CalendarViewController.swift */; };
@@ -50,7 +50,7 @@
 		849006AE25A206A20026CF34 /* SF-Pro-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 849006AB25A206A20026CF34 /* SF-Pro-Text-Medium.otf */; };
 		849006AF25A206A20026CF34 /* SF-Pro-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 849006AC25A206A20026CF34 /* SF-Pro-Text-Regular.otf */; };
 		849006B025A206A20026CF34 /* SF-Pro-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 849006AD25A206A20026CF34 /* SF-Pro-Text-Semibold.otf */; };
-		849006F725A482A70026CF34 /* ReusableSliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849006F625A482A70026CF34 /* ReusableSliderTableViewCell.xib */; };
+		849006F725A482A70026CF34 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849006F625A482A70026CF34 /* SliderTableViewCell.xib */; };
 		84BE2DB325AE4EE800FCAD39 /* CustomUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BE2DB225AE4EE800FCAD39 /* CustomUITextField.swift */; };
 		84C3D64925A86583009B509C /* NewsNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C3D64825A86583009B509C /* NewsNetworkingService.swift */; };
 		84C3D64C25A865C0009B509C /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C3D64B25A865C0009B509C /* Article.swift */; };
@@ -101,7 +101,7 @@
 		846E02C7259B4C9A00211482 /* ReadyDateFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadyDateFilterTableViewCell.swift; sourceTree = "<group>"; };
 		846E02CD259B5E9B00211482 /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		846E02D4259B836000211482 /* ArticleDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailController.swift; sourceTree = "<group>"; };
-		846E02D7259B869B00211482 /* ReusableSliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableSliderTableViewCell.swift; sourceTree = "<group>"; };
+		846E02D7259B869B00211482 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		846E02DA259B871D00211482 /* SliderButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		846E02DD259B87EF00211482 /* ReusableArticleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableArticleCollectionViewCell.swift; sourceTree = "<group>"; };
 		8478D5FE259CB81100934F1D /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		849006AB25A206A20026CF34 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
 		849006AC25A206A20026CF34 /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
 		849006AD25A206A20026CF34 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
-		849006F625A482A70026CF34 /* ReusableSliderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReusableSliderTableViewCell.xib; sourceTree = "<group>"; };
+		849006F625A482A70026CF34 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
 		84BE2DB225AE4EE800FCAD39 /* CustomUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUITextField.swift; sourceTree = "<group>"; };
 		84C3D64825A86583009B509C /* NewsNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsNetworkingService.swift; sourceTree = "<group>"; };
 		84C3D64B25A865C0009B509C /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
@@ -186,8 +186,8 @@
 		68CF9D232592237000699A66 /* Slider TableView Cell */ = {
 			isa = PBXGroup;
 			children = (
-				849006F625A482A70026CF34 /* ReusableSliderTableViewCell.xib */,
-				846E02D7259B869B00211482 /* ReusableSliderTableViewCell.swift */,
+				849006F625A482A70026CF34 /* SliderTableViewCell.xib */,
+				846E02D7259B869B00211482 /* SliderTableViewCell.swift */,
 			);
 			path = "Slider TableView Cell";
 			sourceTree = "<group>";
@@ -531,7 +531,7 @@
 				849006AF25A206A20026CF34 /* SF-Pro-Text-Regular.otf in Resources */,
 				849006B025A206A20026CF34 /* SF-Pro-Text-Semibold.otf in Resources */,
 				846E02762594BB5300211482 /* SearchViewController.storyboard in Resources */,
-				849006F725A482A70026CF34 /* ReusableSliderTableViewCell.xib in Resources */,
+				849006F725A482A70026CF34 /* SliderTableViewCell.xib in Resources */,
 				68FAEAB12591E86400A37577 /* Home.storyboard in Resources */,
 				846E02992594DFA300211482 /* ReadyDateFilterTableViewCell.xib in Resources */,
 				68FAEAA12591E39000A37577 /* LaunchScreen.storyboard in Resources */,
@@ -631,7 +631,7 @@
 				84C3D65825A86696009B509C /* Decoder.swift in Sources */,
 				846E02A22595067C00211482 /* Constants.swift in Sources */,
 				846E02D5259B836000211482 /* ArticleDetailController.swift in Sources */,
-				846E02D8259B869B00211482 /* ReusableSliderTableViewCell.swift in Sources */,
+				846E02D8259B869B00211482 /* SliderTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

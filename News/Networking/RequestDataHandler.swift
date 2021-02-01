@@ -25,7 +25,6 @@ class RequestDataHandler {
     }
     
     private(set) var dictionaryOfimages: [String: Data] = [:] {
-        
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.callBack?()
@@ -35,12 +34,8 @@ class RequestDataHandler {
 
     
     func getDataForSlider() {
-        
-        newsService.requestData(for: .some("politics"),
-                                dateFrom: Date(timeIntervalSinceNow: -300000),
-                                dateTo: Date()) { [weak self] (result) in
+        newsService.requestData(for: .topHeadliners) { [weak self] (result) in
             if let safeSelf = self {
-                
                 safeSelf.saveContentDataIntoArray(data: result,
                                            arrayOfNews: &safeSelf.arrayForSliderOfArticles)
             }
@@ -49,12 +44,10 @@ class RequestDataHandler {
     
     
     func getDataForListNews(for typeArticle: String) {
-        
         newsService.requestData(for: .some(typeArticle),
                                 dateFrom: Date(timeIntervalSinceNow: -300000),
                                 dateTo: Date()) { [weak self] (result) in
             
-
                 self?.saveContentDataIntoArray(data: result,
                                                arrayOfNews: &self!.arrayForListOfArticles)
             }
@@ -126,11 +119,9 @@ class RequestDataHandler {
         
         
         array.forEach { [weak self] (item) in
-            
             guard let safeURL = item.urlToImage  else { return }
             
             if !safeURL.contains("http://") {
-                
                 downloadGroup.enter()
                 self?.newsService.getImage(imageURL: safeURL, completion: { (imageData) in
                     
@@ -139,11 +130,9 @@ class RequestDataHandler {
                         dictionary[safeURL] = safeData
                         downloadGroup.leave()
                     }
-                    
                 })
             }
         }
-        
         downloadGroup.wait()
         DispatchQueue.main.async { [weak self] in
             self?.dictionaryOfimages = dictionary

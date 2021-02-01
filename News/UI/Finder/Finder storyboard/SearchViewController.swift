@@ -34,6 +34,16 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        items = RealmItem.getAllItems()
+        searchTextField.delegate = self
+        
+        prepareUI()
+        prepareTableView()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         itemsToken = items?.observe({ [weak articleTable, weak self] changes in
@@ -52,16 +62,6 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
                 break
             }
         })
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        items = RealmItem.getAllItems()
-        searchTextField.delegate = self
-        
-        prepareUI()
-        prepareTableView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -115,11 +115,9 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let indexPath = articleTable.indexPathForSelectedRow
-        guard let index = indexPath else { return }
+        guard let index = articleTable.indexPathForSelectedRow else { return }
         
         if segue.identifier == Constants.fromSearchToArticle {
-            
             if let vc = segue.destination as? ArticleDetailController {
                 
                 switch index.section {
@@ -135,7 +133,6 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Actions
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         requestDataHandler.getDataFromFilter(for: searchTextField.text, dateFrom: dateForFilter.dateFrom, dateTo: dateForFilter.dateTo)
         reloadTableView(qualifierOfTypeCell: .readyDate)
@@ -239,10 +236,8 @@ extension SearchViewController: UITableViewDataSource {
                     let item = self?.dbManager.getRealmItem(urlString: contentForCell.urlString)
                     self?.dbManager.deleteImageFromFileManager(imageURL: item?.imageURL)
                     self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
-                    
                 }
             }
-            
             return newCell
         }
     }

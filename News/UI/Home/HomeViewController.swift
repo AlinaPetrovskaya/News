@@ -125,7 +125,7 @@ extension HomeViewController: UITableViewDataSource {
         switch TypeOfCell(rawValue: indexPath.section) {
         
         case .articleSlider:
-            let sliderTableViewCell = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableSliderTableViewCell) as? ReusableSliderTableViewCell
+            let sliderTableViewCell = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableSliderTableViewCell) as? SliderTableViewCell
             
             sliderTableViewCell?.updateUI(with: .articleSlider)
             
@@ -164,7 +164,6 @@ extension HomeViewController: UITableViewDataSource {
                     self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
                 }
             }
-            
             return newCell
             
         default:
@@ -218,7 +217,7 @@ extension HomeViewController: UITableViewDelegate {
             view.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
             label.text           = "For you"
             
-            weak var cell = UINib(nibName: Constants.reusableSliderTableViewCell, bundle: .main).instantiate(withOwner: self, options: nil).first as? ReusableSliderTableViewCell
+            weak var cell = UINib(nibName: Constants.reusableSliderTableViewCell, bundle: .main).instantiate(withOwner: self, options: nil).first as? SliderTableViewCell
             
             guard let safeCell = cell else { return nil}
             

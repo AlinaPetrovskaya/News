@@ -22,7 +22,6 @@ class ArticleDetailController: UIViewController {
         super.viewDidLoad()
         
             prepareUI()
-        
     }
     
     private func prepareUI() {
@@ -63,12 +62,15 @@ class ArticleDetailController: UIViewController {
         
         guard let safeFont = font, let safeText = text else { return NSAttributedString() }
         
-        let startIndex = safeText.startIndex
-        let endIndex   = safeText.index(startIndex, offsetBy: 200)
-        let newContent = safeText[startIndex...endIndex]
+//        let startIndex = safeText.startIndex
+//        let endIndex   = safeText.index(startIndex, offsetBy: 200)
+//        let newContent = safeText[startIndex...endIndex]
+        //let index     = safeText.range(of: "[")
         
+        let updated = safeText.split(separator: "[")
+
         let attributes     = [NSAttributedString.Key.font: safeFont]
-        let attributedText = NSAttributedString(string: "\(newContent)", attributes: attributes)
+        let attributedText = NSAttributedString(string: "\(updated.first ?? "")", attributes: attributes)
         
         return attributedText
     }
