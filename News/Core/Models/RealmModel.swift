@@ -70,7 +70,6 @@ extension RealmItem {
       return item
     }
 
-    
     func deleteItem() {
       guard let realm = realm else { return }
 
