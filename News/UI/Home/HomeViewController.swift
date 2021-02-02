@@ -38,6 +38,7 @@ class HomeViewController: UIViewController {
           
           case .initial:
             articleTable?.reloadData()
+            self?.oldRealmItems = RealmItem.getAllItems().freeze()
            
           case .update(let newItem, _, _, _):
             let indexPath = self?.articleBrain.getIndexToReloadRow(oldRealmArray: self?.oldRealmItems?.freeze(), newRealmArray: newItem, arrayOfNews: self?.requestDataHandler.arrayForListOfArticles, section: 1)
