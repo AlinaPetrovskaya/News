@@ -170,6 +170,9 @@
                             <constraint firstItem="PO9-tQ-1G8" firstAttribute="leading" secondItem="LjT-uz-MGn" secondAttribute="leading" id="np5-ZO-pDG"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="datePicker" destination="seH-QB-MVl" id="YvI-vo-6OJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OAU-4h-dcJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -178,7 +181,7 @@
     </scenes>
     <designables>
         <designable name="qah-nd-DhA">
-            <size key="intrinsicContentSize" width="188.33333333333334" height="34"/>
+            <size key="intrinsicContentSize" width="159.33333333333334" height="34"/>
         </designable>
     </designables>
     <resources>

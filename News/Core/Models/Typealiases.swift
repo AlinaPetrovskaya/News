@@ -22,3 +22,12 @@ typealias DataForRealmItem = (urlString: String,
                               content: String,
                               articleDescription: String,
                               saveButton: Bool)
+
+typealias DataForCell = (image: UIImage?,
+                         title: String?,
+                         date: String?,
+                         sourceName: String?,
+                         urlString: String?,
+                         content: String?,
+                         articleDescription: String?,
+                         isSaved: Bool)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RequestDataHandler {
+class RequestDataWrapper {
     
     var callBack: (() -> ())?
     

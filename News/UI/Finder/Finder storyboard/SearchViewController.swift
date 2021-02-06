@@ -15,8 +15,8 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     private var qualifierOfTypeCell: TypeCell = .prepareDate
-    private var requestDataHandler            = RequestDataHandler()
-    private var articleBrain                  = ArticleBrain()
+    private var requestDataWrapper            = RequestDataWrapper()
+    private var articleContentBuilder         = ArticleContentBuilder()
     private let dbManager                     = DBManager()
    
     private var items: Results<RealmItem>?
@@ -28,7 +28,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var articleTable: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private var dateForFilter: (dateFrom: Date, dateTo: Date) = (dateFrom: Date(), dateTo: Date()) {
+    private var dateForFilter: (dateFrom: Date, dateTo: Date) = (dateFrom: Date().getPreviousDate(), dateTo: Date()) {
         didSet {
             reloadTableView(qualifierOfTypeCell: .prepareDate)
         }
@@ -73,13 +73,11 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     private func prepareUI() {
         //get callback from requestDataHandler
-        requestDataHandler.callBack = { [weak self] in
-            self?.articleBrain.images = self?.requestDataHandler.dictionaryOfimages ?? [:]
+        requestDataWrapper.callBack = { [weak self] in
+            self?.articleContentBuilder.images = self?.requestDataWrapper.dictionaryOfimages ?? [:]
             self?.reloadTableView(qualifierOfTypeCell: self?.qualifierOfTypeCell ?? .readyDate)
             self?.activityIndicator.alpha = 0
         }
-        
-        dateForFilter.dateFrom = articleBrain.getPreviousDate()
         
         searchTextField.layer.cornerRadius = 10
         searchButton.layer.cornerRadius    = 4
@@ -91,7 +89,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         
         articleTable.register(UINib(nibName: Constants.prepareDateFilterCell, bundle: .main), forCellReuseIdentifier: Constants.prepareDateFilterCell)
         articleTable.register(UINib(nibName: Constants.readyDateFilterCell, bundle: .main), forCellReuseIdentifier: Constants.readyDateFilterCell)
-        articleTable.register(UINib(nibName: Constants.reusableArticleCell, bundle: .main), forCellReuseIdentifier: Constants.reusableArticleCell)
+        articleTable.register(UINib(nibName: Constants.articleTableViewCell, bundle: .main), forCellReuseIdentifier: Constants.articleTableViewCell)
     }
     
     private func getDateFromCalendar(for buttonFrom: Bool) { //present calendar
@@ -125,7 +123,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
                     break
                     
                 default:
-                    let cell = articleTable.cellForRow(at: index) as? ReusableArticleTableViewCell
+                    let cell = articleTable.cellForRow(at: index) as? ArticleTableViewCell
                     vc.dataForDetailArticle = cell?.getInfoFromCell
                 }
             }
@@ -134,19 +132,19 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Actions
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        requestDataHandler.getDataFromFilter(for: searchTextField.text, dateFrom: dateForFilter.dateFrom, dateTo: dateForFilter.dateTo)
+        requestDataWrapper.getDataFromFilter(for: searchTextField.text, dateFrom: dateForFilter.dateFrom, dateTo: dateForFilter.dateTo)
         reloadTableView(qualifierOfTypeCell: .readyDate)
         return true
     }
         
     @IBAction private func searchButtonTapped(_ sender: UIButton) {
-        requestDataHandler.getDataFromFilter(for: searchTextField.text, dateFrom: dateForFilter.dateFrom, dateTo: dateForFilter.dateTo)
+        requestDataWrapper.getDataFromFilter(for: searchTextField.text, dateFrom: dateForFilter.dateFrom, dateTo: dateForFilter.dateTo)
         reloadTableView(qualifierOfTypeCell: .readyDate)
     }
     
     private func reloadTableView(qualifierOfTypeCell: TypeCell) {
         self.qualifierOfTypeCell = qualifierOfTypeCell
-        articleBrain.images = requestDataHandler.dictionaryOfimages
+        articleContentBuilder.images = requestDataWrapper.dictionaryOfimages
         
         articleTable.reloadData()
         activityIndicator.alpha = qualifierOfTypeCell.rawValue == 0 ? 0 : 1
@@ -171,18 +169,18 @@ extension SearchViewController: UITableViewDataSource {
         case 0:
             return 1
         default:
-            return requestDataHandler.arrayForListOfArticles.count
+            return requestDataWrapper.arrayForListOfArticles.count
         }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var buttonFromText: String {
-            return articleBrain.convertDateIntoString(date: dateForFilter.dateFrom, type: .dateForFilterButton)
+            return  dateForFilter.dateFrom.convertDateIntoString(type: .dateForFilterButton)
         }
         
         var buttonToText: String {
-            return articleBrain.convertDateIntoString(date: dateForFilter.dateTo, type: .dateForFilterButton)
+            return dateForFilter.dateTo.convertDateIntoString(type: .dateForFilterButton)
         }
         
         switch indexPath.section {
@@ -217,16 +215,16 @@ extension SearchViewController: UITableViewDataSource {
             }
             
         default: ///preview news list
-            let cell            = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableArticleCell) as? ReusableArticleTableViewCell
-            let contentForCell  = requestDataHandler.arrayForListOfArticles[indexPath.row]
+            let cell            = articleTable.dequeueReusableCell(withIdentifier: Constants.articleTableViewCell) as? ArticleTableViewCell
+            let contentForCell  = requestDataWrapper.arrayForListOfArticles[indexPath.row]
             
-            let newCell         =  articleBrain.buildCellForArticleTable(cell: cell, contentForCell: contentForCell)
+            let newCell         =  articleContentBuilder.buildCellForArticleTable(cell: cell, contentForCell: contentForCell)
             
             //catch save action
             newCell.tapAction = { [weak self] needSave in
                 self?.currentcell = (indexPath.row, indexPath.section)
                 
-                let imageData = self?.requestDataHandler.dictionaryOfimages[contentForCell.urlToImage ?? ""]
+                let imageData = self?.requestDataWrapper.dictionaryOfimages[contentForCell.urlToImage ?? ""]
                 let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell, image: imageData)
                 if needSave {
                         
@@ -234,7 +232,7 @@ extension SearchViewController: UITableViewDataSource {
                     
                 } else {
                     let item = self?.dbManager.getRealmItem(urlString: contentForCell.urlString)
-                    self?.dbManager.deleteImageFromFileManager(imageURL: item?.imageURL)
+                    ImageManager.deleteImageFromFileManager(imageURL: item?.imageURL)
                     self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
                 }
             }
@@ -264,16 +262,13 @@ extension SearchViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 24, y: 0, width: tableView.frame.width, height: 50))
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        let label = UILabel(frame: CGRect(x: 24, y: 10, width: tableView.frame.width, height: 50))
-        view.addSubview(label)
-        
-        label.font = UIFont(name: "Poppins Medium", size: 18)
         
         switch qualifierOfTypeCell {
         case .prepareDate:
-            label.text = "Filter"
+            let view = HeaderView(
+                for: .headerForSearchListNews,
+                labelText: "Filter")
+
             return view
             
         default:

@@ -10,7 +10,13 @@ import UIKit
 class CalendarViewController: UIViewController {
     
     var callBack: ((Date) -> ())?
+    @IBOutlet weak var datePicker: UIDatePicker!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        datePicker.maximumDate = Date()
+        
+    }
     
     @IBAction func dateChanged(_ sender: UIDatePicker) {
         let formater = DateFormatter()

@@ -23,8 +23,11 @@ extension UITableView {
         endUpdates()
     }
     
+//    func prepareForReload(for: Int) {
+//        deleteRows(at: [IndexPath.fromCell(1, 1)], with: .none)
+//    }
+    
     func updateItemAtRealm(data: DataForRealmItem?, needSave: Bool, item: RealmItem?) {
-        
         if needSave {
             guard let safeData = data else { return }
             

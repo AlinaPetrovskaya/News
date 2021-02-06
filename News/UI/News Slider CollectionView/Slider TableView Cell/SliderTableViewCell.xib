@@ -26,16 +26,22 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="ddz-6Y-SCO">
+                        <rect key="frame" x="219.5" y="73" width="37" height="37"/>
+                    </activityIndicatorView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="caX-pv-bBq" firstAttribute="leading" secondItem="xTz-sF-pvV" secondAttribute="leading" constant="24" id="3c5-3b-oCt"/>
                     <constraint firstItem="caX-pv-bBq" firstAttribute="top" secondItem="xTz-sF-pvV" secondAttribute="top" id="GWm-sH-AcL"/>
+                    <constraint firstItem="ddz-6Y-SCO" firstAttribute="centerY" secondItem="xTz-sF-pvV" secondAttribute="centerY" id="N6I-9c-q0a"/>
+                    <constraint firstItem="ddz-6Y-SCO" firstAttribute="centerX" secondItem="xTz-sF-pvV" secondAttribute="centerX" id="PHi-k3-btW"/>
                     <constraint firstAttribute="trailing" secondItem="caX-pv-bBq" secondAttribute="trailing" id="WEE-8s-pkE"/>
                     <constraint firstAttribute="bottom" secondItem="caX-pv-bBq" secondAttribute="bottom" id="nVq-wj-NC7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="collectionView" destination="caX-pv-bBq" id="3JF-q4-ymY"/>
+                <outlet property="loaderIndicator" destination="ddz-6Y-SCO" id="Frx-n9-NmI"/>
             </connections>
             <point key="canvasLocation" x="-386" y="21"/>
         </tableViewCell>

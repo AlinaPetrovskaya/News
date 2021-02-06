@@ -9,10 +9,10 @@ import Foundation
 
 struct Constants {
     static let homeVC                            = "HomeScreenViewController"
-    static let reusableArticleCell               = "ReusableArticleTableViewCell"
-    static let reusableSliderTableViewCell       = "SliderTableViewCell"
+    static let articleTableViewCell              = "ArticleTableViewCell"
+    static let sliderTableViewCell               = "SliderTableViewCell"
     static let sliderButtonCollectionView        = "SliderButtonCollectionViewCell"
-    static let reusableArticleCollectionViewCell = "ReusableArticleCollectionViewCell"
+    static let sliderArticleCollectionViewCell   = "SliderArticleCollectionViewCell"
     
     static let searchVC              = "SearchViewController"
     static let prepareDateFilterCell = "PrepareDateFilterTableViewCell"

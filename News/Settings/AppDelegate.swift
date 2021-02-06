@@ -11,26 +11,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        loadImageItems()
         
+        ImageManager.loadImageItems()
         return true
-    }
-    
-    private func loadImageItems() {
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Images.plist")
-        
-        guard let dataFile = dataFilePath else { return }
-
-        if let data = try? Data(contentsOf: dataFile) {
-
-            let decoder = PropertyListDecoder()
-        do {
-              let imageData = try decoder.decode([ImageManagerModel].self, from: data)
-            DataImageList.arrayOfImages = imageData
-            } catch {
-                print("Error at reading data: \(error.localizedDescription)")
-            }
-        }
     }
 
     // MARK: UISceneSession Lifecycle

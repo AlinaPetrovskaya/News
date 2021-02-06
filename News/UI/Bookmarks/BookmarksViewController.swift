@@ -17,7 +17,6 @@ class BookmarksViewController: UIViewController {
     private var dataForDetailVC: DataForArticle?
     
     private let dbManager    = DBManager()
-    private let articleBrain = ArticleBrain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +26,9 @@ class BookmarksViewController: UIViewController {
         articleTable.delegate   = self
         articleTable.dataSource = self
         
-        let nib = UINib(nibName: Constants.reusableArticleCell, bundle: .main)
+        let nib = UINib(nibName: Constants.articleTableViewCell, bundle: .main)
         
-        articleTable.register(nib, forCellReuseIdentifier: Constants.reusableArticleCell)
+        articleTable.register(nib, forCellReuseIdentifier: Constants.articleTableViewCell)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,30 +75,28 @@ extension BookmarksViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableArticleCell) as? ReusableArticleTableViewCell
+        let cell = articleTable.dequeueReusableCell(withIdentifier: Constants.articleTableViewCell) as? ArticleTableViewCell
         
-        if let contentForCell = items?[indexPath.row] {
-            
-            let date = articleBrain.convertDateIntoString(date: contentForCell.date, type: .dateForPreviewNews)
-            
-            
-            cell?.previewImage.image = dbManager.getImageForBookmarkArticle(imageUrl: contentForCell.imageURL)
-            
-            cell?.updateUI(title: contentForCell.title,
-                           date: date,
-                           sourceName: contentForCell.sourceName,
-                           urlString: contentForCell.urlString,
-                           content: contentForCell.content,
-                           articleDescription: contentForCell.articleDescription,
-                           isSaved: true)
-            
-        }
+        guard let contentForCell = items?[indexPath.row] else { return UITableViewCell() }
+        
+        let date = contentForCell.date.convertDateIntoString(type: .dateForPreviewNews)
+        let image = dbManager.getImageForBookmarkArticle(imageUrl: contentForCell.imageURL)
+        let dataConstructor = (image: image,
+                               title: contentForCell.title,
+                               date: date,
+                               sourceName: contentForCell.sourceName,
+                               urlString: contentForCell.urlString,
+                               content: contentForCell.content,
+                               articleDescription: contentForCell.articleDescription,
+                               isSaved: true)
+        
+        cell?.updateUI(content: dataConstructor)
         
         //get action from cell
         cell?.tapAction = { [weak self] _ in
             let item = self?.items?[indexPath.row]
             DispatchQueue.main.async {
-                self?.dbManager.deleteImageFromFileManager(imageURL: item?.imageURL)
+                ImageManager.deleteImageFromFileManager(imageURL: item?.imageURL)
                 self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
             }
         }

@@ -14,9 +14,9 @@ class HomeViewController: UIViewController {
         case articleSlider = 0, articleList
     }
     
-    private let requestDataHandler = RequestDataHandler()
-    private var articleBrain       = ArticleBrain()
-    private let dbManager          = DBManager()
+    private let requestDataHandler    = RequestDataWrapper()
+    private var articleContentBuilder = ArticleContentBuilder()
+    private let dbManager             = DBManager()
     
     private var items: Results<RealmItem>?
     private var oldRealmItems: Results<RealmItem>? = RealmItem.getAllItems().freeze()
@@ -41,13 +41,17 @@ class HomeViewController: UIViewController {
             self?.oldRealmItems = RealmItem.getAllItems().freeze()
            
           case .update(let newItem, _, _, _):
-            let indexPath = self?.articleBrain.getIndexToReloadRow(oldRealmArray: self?.oldRealmItems?.freeze(), newRealmArray: newItem, arrayOfNews: self?.requestDataHandler.arrayForListOfArticles, section: 1)
+            let indexPath = self?.articleContentBuilder.getIndexToReloadRow(
+                oldRealmArray: self?.oldRealmItems?.freeze(),
+                newRealmArray: newItem,
+                arrayOfNews: self?.requestDataHandler.arrayForListOfArticles,
+                section: 1)
             
             if let safeIndexPath = indexPath {
                 articleTable?.reloadRows(at: [safeIndexPath], with: .automatic)
             }
             self?.oldRealmItems = newItem.freeze()
-                
+            
           case .error:
             break
           }
@@ -76,15 +80,15 @@ class HomeViewController: UIViewController {
         
         //get callback from requestDataHandler
         requestDataHandler.callBack = { [weak self] in
-            self?.activityIndicator.alpha = 0
-            self?.articleBrain.images = self?.requestDataHandler.dictionaryOfimages ?? [:]
+            self?.activityIndicator.stopAnimating()
+            self?.articleContentBuilder.images = self?.requestDataHandler.dictionaryOfimages ?? [:]
             self?.articleTable.reloadData()
         }
         
         
         //register reusable cells
-        articleTable.register(UINib(nibName: Constants.reusableSliderTableViewCell, bundle: .main), forCellReuseIdentifier: Constants.reusableSliderTableViewCell)
-        articleTable.register(UINib(nibName: Constants.reusableArticleCell, bundle: .main), forCellReuseIdentifier: Constants.reusableArticleCell)
+        articleTable.register(UINib(nibName: Constants.sliderTableViewCell, bundle: .main), forCellReuseIdentifier: Constants.sliderTableViewCell)
+        articleTable.register(UINib(nibName: Constants.articleTableViewCell, bundle: .main), forCellReuseIdentifier: Constants.articleTableViewCell)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -126,9 +130,7 @@ extension HomeViewController: UITableViewDataSource {
         switch TypeOfCell(rawValue: indexPath.section) {
         
         case .articleSlider:
-            let sliderTableViewCell = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableSliderTableViewCell) as? SliderTableViewCell
-            
-            sliderTableViewCell?.updateUI(with: .articleSlider)
+            let sliderTableViewCell = articleTable.dequeueReusableCell(withIdentifier: Constants.sliderTableViewCell) as? SliderTableViewCell
             
             //catch showDetailArticle action from slider
             sliderTableViewCell?.showDetailArticleAction = { [weak self] content in
@@ -143,25 +145,28 @@ extension HomeViewController: UITableViewDataSource {
             
         case .articleList:
             
-            let cell = articleTable.dequeueReusableCell(withIdentifier: Constants.reusableArticleCell) as? ReusableArticleTableViewCell
+            let cell = articleTable.dequeueReusableCell(withIdentifier: Constants.articleTableViewCell) as? ArticleTableViewCell
             
             let contentForCell  = requestDataHandler.arrayForListOfArticles[indexPath.row]
             
-            let newCell = articleBrain.buildCellForArticleTable(cell: cell, contentForCell: contentForCell)
+            let newCell = articleContentBuilder.buildCellForArticleTable(cell: cell, contentForCell: contentForCell)
             
             //catch action from cell
             newCell.tapAction = { [weak self] needSave in
                 self?.currentcell = (indexPath.row, indexPath.section)
                 
-                let imageData = self?.requestDataHandler.dictionaryOfimages[contentForCell.urlToImage ?? ""]
-                let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell, image: imageData)
-                
                 if needSave {
+                    let imageData = self?.requestDataHandler.dictionaryOfimages[contentForCell.urlToImage ?? ""]
+                    
+                    let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell, image: imageData)
+                    
                     self?.articleTable.updateItemAtRealm(data: contentForRealm, needSave: true, item: nil)
                     
                 } else {
                     guard let item = self?.dbManager.getRealmItem(urlString: contentForCell.urlString) else { return }
-                    self?.dbManager.deleteImageFromFileManager(imageURL: item.imageURL)
+                    
+                    ImageManager.deleteImageFromFileManager(imageURL: item.imageURL)
+                    
                     self?.articleTable.updateItemAtRealm(data: nil, needSave: false, item: item)
                 }
             }
@@ -181,7 +186,7 @@ extension HomeViewController: UITableViewDelegate {
         case .articleList:
             let contentForArticleDetail  = requestDataHandler.arrayForListOfArticles[indexPath.row]
             
-            dataForDetailVC = articleBrain.getDataForArticleDetail(contentForArticleDetail: contentForArticleDetail)
+            dataForDetailVC = articleContentBuilder.getDataForArticleDetail(contentForArticleDetail: contentForArticleDetail)
             
             performSegue(withIdentifier: Constants.fromHomeToAtricle, sender: self)
             
@@ -199,51 +204,25 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel(frame: CGRect(x: 24, y: 0, width: tableView.frame.width, height: 50))
-        label.font = UIFont(name: "PlayfairDisplay-Medium", size: 24)
         
         switch TypeOfCell(rawValue: section) {
-        
         case .articleSlider:
-            let view = UIView(frame: CGRect(x: 24, y: 0, width: tableView.frame.width, height: 50))
-            view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            view.addSubview(label)
-            
-            label.text = "Today's Read"
+            let view = HeaderView(
+                for: .headerForSliderNews,
+                labelText: "Today's read")
             
             return view
             
         default:
-            let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 130))
-            view.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-            label.text           = "For you"
+            let view = HeaderView(
+                for: .headerForHomeListNews,
+                labelText: "For you")
             
-            weak var cell = UINib(nibName: Constants.reusableSliderTableViewCell, bundle: .main).instantiate(withOwner: self, options: nil).first as? SliderTableViewCell
-            
-            guard let safeCell = cell else { return nil}
-            
-            safeCell.tapActionOnSearchButton = { [weak self] buttonText in //catch action from slider button
+            view.tapActionOnSearchButton = { [weak self] buttonText in
+                
                 self?.requestDataHandler.getDataForListNews(for: buttonText)
+                
             }
-            
-            view.addSubview(label)
-            view.addSubview(safeCell)
-            
-            
-            //  label constraints
-            label.translatesAutoresizingMaskIntoConstraints = false
-            
-            label.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24).isActive = true
-            label.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            
-            //  button slider constraints
-            safeCell.translatesAutoresizingMaskIntoConstraints = false
-            safeCell.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10).isActive = true
-            safeCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -15).isActive = true
-            safeCell.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            safeCell.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            
             return view
         }
     }

@@ -7,13 +7,14 @@
 
 import UIKit
 
-class ReusableArticleCollectionViewCell: UICollectionViewCell {
+class SliderArticleCollectionViewCell: UICollectionViewCell {
     
     var tapAction: ((Bool) -> ())?
     @IBOutlet private var previewImage: UIImageView!
     @IBOutlet private weak var titleText: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
     
+    private var date: String?
     private var sourceName: String?
     private var urlString: String?
     private var content: String?
@@ -21,13 +22,7 @@ class ReusableArticleCollectionViewCell: UICollectionViewCell {
     private var isSaved: Bool = false
 
     
-    func updateUI (content:(image: UIImage,
-                   title: String?,
-                   sourceName: String?,
-                   urlString: String?,
-                   content: String?,
-                   articleDescription: String?,
-                   isSaved: Bool)) {
+    func updateUI (content: DataForCell) {
         
         let isArticleSelected: String = content.isSaved ? "bookmark.fill" : "bookmark"
         saveButton.tintColor          = content.isSaved ? #colorLiteral(red: 0.417593956, green: 0.5600294471, blue: 0.9730384946, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
@@ -35,6 +30,7 @@ class ReusableArticleCollectionViewCell: UICollectionViewCell {
         
         previewImage.image      = content.image
         titleText.text          = content.title
+        self.date               = content.date
         self.sourceName         = content.sourceName
         self.isSaved            = content.isSaved
         self.articleDescription = content.articleDescription

@@ -9,7 +9,7 @@ import UIKit
 
 class ArticleDetailController: UIViewController {
     
-    let articleData = RequestDataHandler()
+    let articleData = RequestDataWrapper()
     
     @IBOutlet private weak var articleImage: UIImageView!
     @IBOutlet private weak var articleHeaderTitle: UILabel!

@@ -13,7 +13,6 @@ extension UICollectionView {
 
         if needSave {
             guard let safeData = data else { return }
-
             RealmItem.addItem(dataArticle: safeData)
 
         } else {
