@@ -215,6 +215,7 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		68FAEA932591E38D00A37577 /* News */ = {
 			isa = PBXGroup;

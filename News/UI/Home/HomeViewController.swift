@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
     private var currentcell: (Int, Int)?
     
     @IBOutlet weak var articleTable: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loaderForListOfNews: UIView!
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +80,7 @@ class HomeViewController: UIViewController {
         
         //get callback from requestDataHandler
         requestDataHandler.callBack = { [weak self] in
-            self?.activityIndicator.stopAnimating()
+            self?.loaderForListOfNews.isHidden = true
             self?.articleContentBuilder.images = self?.requestDataHandler.dictionaryOfimages ?? [:]
             self?.articleTable.reloadData()
         }
@@ -219,7 +219,7 @@ extension HomeViewController: UITableViewDelegate {
                 labelText: "For you")
             
             view.tapActionOnSearchButton = { [weak self] buttonText in
-                
+                self?.loaderForListOfNews.isHidden = false
                 self?.requestDataHandler.getDataForListNews(for: buttonText)
                 
             }
