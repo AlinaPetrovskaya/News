@@ -47,23 +47,23 @@ class ArticleDetailController: UIViewController {
     
     private func prepareTitleText(text: String?, size: CGFloat) -> NSAttributedString {
         
-        let font = UIFont(name: "SF Pro Text Semibold", size: size)
+        let font = FontBook.SPFTextBold.of(size: size)
         
-        guard let safeFont = font, let safeText = text else { return NSAttributedString() }
+        guard let safeText = text else { return NSAttributedString() }
         
-        let attributes     = [NSAttributedString.Key.font: safeFont]
+        let attributes     = [NSAttributedString.Key.font: font]
         let attributedText = NSAttributedString(string: "\(safeText) \n\n", attributes: attributes)
         
         return attributedText
     }
     
     private func prepareContent(text: String?) -> NSAttributedString {
-        let font = UIFont(name: "SF Pro Text Regular", size: 16)
+        let font = FontBook.SPFTextRegular.of(size: 16)
         
-        guard let safeFont = font, let safeText = text else { return NSAttributedString() }
+        guard let safeText = text else { return NSAttributedString() }
         
         let updated        = safeText.split(separator: "[")
-        let attributes     = [NSAttributedString.Key.font: safeFont]
+        let attributes     = [NSAttributedString.Key.font: font]
         let attributedText = NSAttributedString(string: "\(updated.first ?? "")", attributes: attributes)
         
         return attributedText

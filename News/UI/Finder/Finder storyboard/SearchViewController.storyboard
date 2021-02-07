@@ -8,8 +8,8 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="SF-Pro-Text-Regular.otf">
-            <string>SFProText-Regular</string>
+        <array key="SF-Pro-Text-Medium.otf">
+            <string>SFProText-Medium</string>
         </array>
     </customFonts>
     <scenes>
@@ -37,7 +37,7 @@
                                             <constraint firstAttribute="height" constant="36" id="yYG-Z0-77r"/>
                                         </constraints>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="search"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="image" keyPath="leftImage" value="magnifyingglass" catalog="system"/>
@@ -181,7 +181,7 @@
     </scenes>
     <designables>
         <designable name="qah-nd-DhA">
-            <size key="intrinsicContentSize" width="159.33333333333334" height="34"/>
+            <size key="intrinsicContentSize" width="188.33333333333334" height="34"/>
         </designable>
     </designables>
     <resources>

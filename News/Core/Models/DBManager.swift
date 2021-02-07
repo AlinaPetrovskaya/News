@@ -11,7 +11,6 @@ import RealmSwift
 class DBManager {
     
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Images.plist")
-    lazy var realm = try! Realm()
     
     func prepareDateForRealm(item: Article, image: Data?) -> DataForRealmItem {
         
@@ -35,7 +34,7 @@ class DBManager {
         
         if let safeURLString = urlString {
             let myPrimaryKey = safeURLString
-            
+            let realm = try! Realm()
             
             let item = realm.object(ofType: RealmItem.self, forPrimaryKey: myPrimaryKey)
             
@@ -43,20 +42,6 @@ class DBManager {
         }
         
         return nil
-    }
-    
-    func isArticleSaved(urlString: String?) -> Bool {
-        
-        if let safeURLString = urlString {
-            
-            let myPrimaryKey = safeURLString
-            let item = realm.object(ofType: RealmItem.self, forPrimaryKey: myPrimaryKey)
-            
-            guard item != nil else { return false }
-            return true
-        }
-        
-        return false
     }
     
     func getImageForBookmarkArticle(imageUrl: String) -> UIImage {
@@ -71,50 +56,4 @@ class DBManager {
         }
         return #imageLiteral(resourceName: "default")
     }
-    
-    
-//    func deleteImageFromFileManager(imageURL: String?) {
-//        guard let safeURL = imageURL else { return }
-//
-//       let index = ImageManager.arrayOfImages.firstIndex { (imageModel) -> Bool in
-//            return imageModel.imageURL == safeURL
-//        }
-//
-//        if let safeIndex = index {
-//            ImageManager.arrayOfImages.remove(at: safeIndex)
-//            saveImageIntoFileManager()
-//        }
-//    }
-//
-//
-//    private func saveImage(imageURL: String, imageData: Data) {
-//
-//        let uniquenessChecker =  ImageManager.arrayOfImages.contains(where: { (imageModel) -> Bool in
-//            return imageModel.imageURL == imageURL
-//        })
-        
-//        if uniquenessChecker {
-//            return
-//        }
-//
-//        ImageManager.arrayOfImages.append(ImageManagerModel(imageURL: imageURL, imageData: imageData))
-//
-//        saveImageIntoFileManager()
-//    }
-//
-//
-//    private func saveImageIntoFileManager() {
-//        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Images.plist")
-//
-//        guard let dataFile = dataFilePath else { return }
-//
-//        let encoder  = PropertyListEncoder()
-//        do {
-//            let data = try encoder.encode(ImageManager.arrayOfImages)
-//            try data.write(to: dataFile)
-//
-//        } catch {
-//            print("Can't save data into FileManager")
-//        }
-//    }
 }

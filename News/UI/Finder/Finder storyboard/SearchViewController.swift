@@ -72,7 +72,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func prepareUI() {
-        //get callback from requestDataHandler
+        //get callback from requestDataWrapper
         requestDataWrapper.callBack = { [weak self] in
             self?.articleContentBuilder.images = self?.requestDataWrapper.dictionaryOfimages ?? [:]
             self?.reloadTableView(qualifierOfTypeCell: self?.qualifierOfTypeCell ?? .readyDate)

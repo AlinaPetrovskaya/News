@@ -12,7 +12,6 @@ import RealmSwift
 class ArticleContentBuilder {
     
     var images: [String : Data] = [:]
-    let dbManager = DBManager()
     
     
     func buildCellForArticleTable(cell: ArticleTableViewCell?, contentForCell: Article?) -> ArticleTableViewCell {
@@ -33,7 +32,7 @@ class ArticleContentBuilder {
     
     private func prepareDateForCell(with contentForCell: Article?) -> DataForCell {
         
-        let isSaved = dbManager.isArticleSaved(urlString: contentForCell?.urlString)
+        let isSaved = isArticleSaved(urlString: contentForCell?.urlString)
 
         let dateString = contentForCell?.publishedAt?.convertDateIntoString(type: .dateForPreviewNews)
         
@@ -87,8 +86,6 @@ class ArticleContentBuilder {
         return indexPath
     }
     
- 
-    
     func getDataForArticleDetail(contentForArticleDetail: Article) -> DataForArticle {
         var dataForDetailVC: DataForArticle = (
             image: #imageLiteral(resourceName: "default"),
@@ -107,5 +104,21 @@ class ArticleContentBuilder {
         }
         
         return dataForDetailVC
+    }
+    
+    private func isArticleSaved(urlString: String?) -> Bool {
+        
+        if let safeURLString = urlString {
+            
+            let myPrimaryKey = safeURLString
+            let realm = try! Realm()
+            
+            let item = realm.object(ofType: RealmItem.self, forPrimaryKey: myPrimaryKey)
+            
+            guard item != nil else { return false }
+            return true
+        }
+        
+        return false
     }
 }

@@ -43,14 +43,14 @@ class HeaderView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
         
         switch section {
         case .headerForSliderNews:
-            updateLabel(labelText: labelText, font: UIFont(name: "PlayfairDisplay-Medium", size: 24), upperPadding: 0)
+            updateLabel(labelText: labelText, font: FontBook.PlayFairMedium.of(size: 24), upperPadding: 0)
             
         case .headerForHomeListNews :
-            updateLabel(labelText: labelText, font: UIFont(name: "PlayfairDisplay-Medium", size: 24), upperPadding: 0)
+            updateLabel(labelText: labelText, font: FontBook.PlayFairMedium.of(size: 24), upperPadding: 0)
             updateCollectionView()
         
         case .headerForSearchListNews:
-            updateLabel(labelText: labelText, font: UIFont(name: "Poppins Medium", size: 18), upperPadding: 24)
+            updateLabel(labelText: labelText, font: FontBook.PoppinsMedium.of(size: 18), upperPadding: 24)
         }
     }
     

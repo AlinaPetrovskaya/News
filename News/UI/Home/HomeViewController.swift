@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
         case articleSlider = 0, articleList
     }
     
-    private let requestDataHandler    = RequestDataWrapper()
+    private let requestDataWrapper    = RequestDataWrapper()
     private var articleContentBuilder = ArticleContentBuilder()
     private let dbManager             = DBManager()
     
@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
             let indexPath = self?.articleContentBuilder.getIndexToReloadRow(
                 oldRealmArray: self?.oldRealmItems?.freeze(),
                 newRealmArray: newItem,
-                arrayOfNews: self?.requestDataHandler.arrayForListOfArticles,
+                arrayOfNews: self?.requestDataWrapper.arrayForListOfArticles,
                 section: 1)
             
             if let safeIndexPath = indexPath {
@@ -76,12 +76,12 @@ class HomeViewController: UIViewController {
         articleTable.dataSource = self
         
         //make server requests
-        requestDataHandler.getDataForListNews(for: "politics")
+        requestDataWrapper.getDataForListNews(for: "politics")
         
-        //get callback from requestDataHandler
-        requestDataHandler.callBack = { [weak self] in
+        //get callback from requestDataWrapper
+        requestDataWrapper.callBack = { [weak self] in
             self?.loaderForListOfNews.isHidden = true
-            self?.articleContentBuilder.images = self?.requestDataHandler.dictionaryOfimages ?? [:]
+            self?.articleContentBuilder.images = self?.requestDataWrapper.dictionaryOfimages ?? [:]
             self?.articleTable.reloadData()
         }
         
@@ -105,7 +105,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if requestDataHandler.arrayForListOfArticles.count == 0 {
+        if requestDataWrapper.arrayForListOfArticles.count == 0 {
             return 0
         } else {
             return 2
@@ -118,7 +118,7 @@ extension HomeViewController: UITableViewDataSource {
             case .articleSlider:
                 return 1
             case .articleList:
-                return requestDataHandler.arrayForListOfArticles.count
+                return requestDataWrapper.arrayForListOfArticles.count
             default:
                 return 0
             }
@@ -147,7 +147,7 @@ extension HomeViewController: UITableViewDataSource {
             
             let cell = articleTable.dequeueReusableCell(withIdentifier: Constants.articleTableViewCell) as? ArticleTableViewCell
             
-            let contentForCell  = requestDataHandler.arrayForListOfArticles[indexPath.row]
+            let contentForCell  = requestDataWrapper.arrayForListOfArticles[indexPath.row]
             
             let newCell = articleContentBuilder.buildCellForArticleTable(cell: cell, contentForCell: contentForCell)
             
@@ -156,7 +156,7 @@ extension HomeViewController: UITableViewDataSource {
                 self?.currentcell = (indexPath.row, indexPath.section)
                 
                 if needSave {
-                    let imageData = self?.requestDataHandler.dictionaryOfimages[contentForCell.urlToImage ?? ""]
+                    let imageData = self?.requestDataWrapper.dictionaryOfimages[contentForCell.urlToImage ?? ""]
                     
                     let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell, image: imageData)
                     
@@ -184,7 +184,7 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch  TypeOfCell(rawValue: indexPath.section){
         case .articleList:
-            let contentForArticleDetail  = requestDataHandler.arrayForListOfArticles[indexPath.row]
+            let contentForArticleDetail  = requestDataWrapper.arrayForListOfArticles[indexPath.row]
             
             dataForDetailVC = articleContentBuilder.getDataForArticleDetail(contentForArticleDetail: contentForArticleDetail)
             
@@ -220,7 +220,7 @@ extension HomeViewController: UITableViewDelegate {
             
             view.tapActionOnSearchButton = { [weak self] buttonText in
                 self?.loaderForListOfNews.isHidden = false
-                self?.requestDataHandler.getDataForListNews(for: buttonText)
+                self?.requestDataWrapper.getDataForListNews(for: buttonText)
                 
             }
             return view

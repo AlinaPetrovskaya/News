@@ -18,7 +18,7 @@ class SliderTableViewCell: UITableViewCell {
     private var items: Results<RealmItem>?
     var itemsToken: NotificationToken?
     private var oldRealmItems: Results<RealmItem>? = RealmItem.getAllItems().freeze()
-    private let requestDataHandler = RequestDataWrapper()
+    private let requestDataWrapper = RequestDataWrapper()
     private var articleBrain = ArticleContentBuilder()
     @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
     
@@ -31,11 +31,11 @@ class SliderTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        requestDataHandler.getDataForSlider()
+        requestDataWrapper.getDataForSlider()
         
-        //get callback from requestDataHandler
-        requestDataHandler.callBack = { [weak self] in
-            self?.articleBrain.images = self?.requestDataHandler.dictionaryOfimages ?? [:]
+        //get callback from requestDataWrapper
+        requestDataWrapper.callBack = { [weak self] in
+            self?.articleBrain.images = self?.requestDataWrapper.dictionaryOfimages ?? [:]
             self?.loaderIndicator.stopAnimating()
             self?.collectionView.reloadData()
         }
@@ -60,7 +60,7 @@ class SliderTableViewCell: UITableViewCell {
                 let indexPath = self?.articleBrain.getIndexToReloadRow(
                     oldRealmArray: self?.oldRealmItems?.freeze(),
                     newRealmArray: newItem,
-                    arrayOfNews: self?.requestDataHandler.arrayForSliderOfArticles,
+                    arrayOfNews: self?.requestDataWrapper.arrayForSliderOfArticles,
                     section: 0)
                 
                 if let safeIndexPath = indexPath {
@@ -90,19 +90,19 @@ class SliderTableViewCell: UITableViewCell {
 extension SliderTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return requestDataHandler.arrayForSliderOfArticles.count
+        return requestDataWrapper.arrayForSliderOfArticles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.sliderArticleCollectionViewCell, for: indexPath) as? SliderArticleCollectionViewCell
         
-        let contentForCell = requestDataHandler.arrayForSliderOfArticles[indexPath.row]
+        let contentForCell = requestDataWrapper.arrayForSliderOfArticles[indexPath.row]
         
         let newCell = articleBrain.buildCellForSlider(cell: cell, contentForCell: contentForCell)
         
         newCell.tapAction = { [weak self] needSave in //catch save action from savebutton of SliderArticle item
             if needSave {
-                let imageData = self?.requestDataHandler.dictionaryOfimages[contentForCell.urlToImage ?? ""]
+                let imageData = self?.requestDataWrapper.dictionaryOfimages[contentForCell.urlToImage ?? ""]
                 let contentForRealm = self?.dbManager.prepareDateForRealm(item: contentForCell, image: imageData)
                 
                 self?.collectionView.updateItemAtRealm(
@@ -127,7 +127,7 @@ extension SliderTableViewCell: UICollectionViewDataSource {
 extension SliderTableViewCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let content = requestDataHandler.arrayForSliderOfArticles[indexPath.row]
+        let content = requestDataWrapper.arrayForSliderOfArticles[indexPath.row]
         showDetailArticleAction?(articleBrain.getDataForArticleDetail(contentForArticleDetail: content))
     }
 }
