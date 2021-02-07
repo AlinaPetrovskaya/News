@@ -49,9 +49,9 @@ class ArticleDetailController: UIViewController {
         
         let font = FontBook.SPFTextBold.of(size: size)
         
-        guard let safeText = text else { return NSAttributedString() }
+        guard let safeFont = font, let safeText = text else { return NSAttributedString() }
         
-        let attributes     = [NSAttributedString.Key.font: font]
+        let attributes     = [NSAttributedString.Key.font: safeFont]
         let attributedText = NSAttributedString(string: "\(safeText) \n\n", attributes: attributes)
         
         return attributedText
@@ -60,10 +60,10 @@ class ArticleDetailController: UIViewController {
     private func prepareContent(text: String?) -> NSAttributedString {
         let font = FontBook.SPFTextRegular.of(size: 16)
         
-        guard let safeText = text else { return NSAttributedString() }
+        guard let safeFont = font, let safeText = text else { return NSAttributedString() }
         
         let updated        = safeText.split(separator: "[")
-        let attributes     = [NSAttributedString.Key.font: font]
+        let attributes     = [NSAttributedString.Key.font: safeFont]
         let attributedText = NSAttributedString(string: "\(updated.first ?? "")", attributes: attributes)
         
         return attributedText

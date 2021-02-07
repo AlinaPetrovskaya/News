@@ -10,6 +10,7 @@ import UIKit
 class RequestDataWrapper {
     
     var callBack: (() -> ())?
+    var presentErrorAlert: ((Error) -> ())?
     
     private let newsService = NewsNetworkingService(apiKey: "d64358ad9c27440184ba2b6ed206381f")
     
@@ -104,7 +105,7 @@ class RequestDataWrapper {
             
         case .failure(let error):
             DispatchQueue.main.async { [weak self] in
-                self?.errorAlertShow(error: error)
+                self?.presentErrorAlert?(error)
             }
         }
     }
@@ -139,16 +140,16 @@ class RequestDataWrapper {
         }
     }
     
-    private func errorAlertShow(error: Error) {
-        
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription , preferredStyle: .alert)
-        
-        let dismissAction = UIAlertAction(title: "Close", style: .cancel) { _ in
-            return
-        }
-        alert.addAction(dismissAction)
-        
-        let root = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
-        root?.present(alert, animated: true, completion: nil)
-    }
+//    private func errorAlertShow(error: Error) {
+//
+//        let alert = UIAlertController(title: "Error", message: error.localizedDescription , preferredStyle: .alert)
+//
+//        let dismissAction = UIAlertAction(title: "Close", style: .cancel) { _ in
+//            return
+//        }
+//        alert.addAction(dismissAction)
+//
+//        let root = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController
+//        root?.present(alert, animated: true, completion: nil)
+//    }
 }

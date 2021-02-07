@@ -85,6 +85,10 @@ class HomeViewController: UIViewController {
             self?.articleTable.reloadData()
         }
         
+        requestDataWrapper.presentErrorAlert = { [weak self] error in
+            self?.errorAlertShow(error: error)
+        }
+        
         
         //register reusable cells
         articleTable.register(UINib(nibName: Constants.sliderTableViewCell, bundle: .main), forCellReuseIdentifier: Constants.sliderTableViewCell)

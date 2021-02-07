@@ -25,8 +25,8 @@ import UIKit
         case PoppinsBold    = "Poppins SemiBold"
         
 
-        func of (size: CGFloat) -> UIFont {
-            return UIFont(name: self.rawValue, size: size)!
+        func of (size: CGFloat) -> UIFont? {
+            return UIFont(name: self.rawValue, size: size)
           }
     }
     
