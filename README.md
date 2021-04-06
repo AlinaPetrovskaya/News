@@ -24,7 +24,7 @@ The App shows the latest news from the [NewsApi](https://newsapi.org/). It allow
 
 | Functionality of main display   | Searching  | Bookmarks |
 |:----------|:----------|:----------|
-|<img src="https://media1.tenor.com/images/f09289ab62f387493a05a25da3b3ec64/tenor.gif?itemid=21053453">   | <img src="https://media1.tenor.com/images/c088bcad78e35f5705fba37af246965a/tenor.gif?itemid=21053642">  | <img src="https://media1.tenor.com/images/26ea9a3c0d23c85072f1127eeafe566a/tenor.gif?itemid=21053008"> |
+|<img src="https://media1.tenor.com/images/f09289ab62f387493a05a25da3b3ec64/tenor.gif?itemid=21053453">   | <img src="https://media1.tenor.com/images/c088bcad78e35f5705fba37af246965a/tenor.gif?itemid=21053642">  | <img src="https://media1.tenor.com/images/26ea9a3c0d23c85072f1127eeafe566a/tenor.gif?itemid=21053730"> |
 
 
 ## Getting Started
