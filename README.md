@@ -15,18 +15,6 @@ The App shows the latest news from the [NewsApi](https://newsapi.org/). It allow
 - Notification's data handler
 - Updating text style with **Attributed String**
 
-
-## Features
-- Loading news with URLSession
-- Saving News with RealmSwift to ceep interesting articles
-- Updating UI with Realm notifications
-- Searching news
-
-| Functionality of main display   | Searching  | Bookmarks |
-|:----------|:----------|:----------|
-|<img src="https://media1.tenor.com/images/f09289ab62f387493a05a25da3b3ec64/tenor.gif?itemid=21053453" width="auto" height="65%">| <img src="https://media.tenor.com/images/620a9e0b94958c45dd511a2648d3ae3c/tenor.gif" width="auto" height="88%"> |<img src="https://media1.tenor.com/images/c088bcad78e35f5705fba37af246965a/tenor.gif?itemid=21053642"  width="auto" height="65%">|
-
-
 ## Getting Started
 1. Download the repository
 
@@ -42,6 +30,19 @@ The App shows the latest news from the [NewsApi](https://newsapi.org/). It allow
 
 4. Open the workspace project in Xcode
 5. Compile and run the app in your simulator
+
+## Features
+- Loading news with URLSession
+- Saving News with RealmSwift to ceep interesting articles
+<img src="https://media1.tenor.com/images/865d3d6e43f98a488f0ce739d3c0bfb7/tenor.gif?itemid=21054255">
+
+- Updating UI with Realm notifications
+- Searching news
+
+| Functionality of main display | Searching  |
+|:----------|:----------|
+| <img src="https://media1.tenor.com/images/f09289ab62f387493a05a25da3b3ec64/tenor.gif?itemid=21053453" height="80%" width="auto">   | <img src="https://media1.tenor.com/images/c088bcad78e35f5705fba37af246965a/tenor.gif?itemid=21053642" height="80%" width="auto">  |
+
 
 ## Third Party libraries
 - [Realm Database](https://docs.mongodb.com/realm-legacy/docs/swift/latest/) for local data
